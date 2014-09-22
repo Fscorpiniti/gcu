@@ -45,7 +45,7 @@ public abstract class GenericDAOImpl<E extends PersistibleObject, PK extends Ser
 	
 	@Override
 	public void saveOrUpdate(E object) {
-		if (object.getId() == 0l) {
+		if (object.getId() == 0) {
 			save(object);
 		} else {
 			update(object);

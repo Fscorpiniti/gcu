@@ -14,15 +14,15 @@ public class PersistibleObject implements Serializable {
 	private static final long serialVersionUID = -1712042570608239529L;
 	
 	@Id
-	@Column(name = "id")
+	@Column(name = "id", length = 11, nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id = 0l;
+	private Integer id = 0;
 
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
