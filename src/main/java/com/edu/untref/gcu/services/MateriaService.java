@@ -8,4 +8,8 @@ public interface MateriaService {
 
 	List<Materia> getAllMaterias();
 	
+	Materia findById(String id);
+	
+	Materia save(Materia materia);
+	
 }
