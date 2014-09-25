@@ -21,17 +21,5 @@ public class MateriaServiceImpl implements MateriaService {
 	public List<Materia> getAllMaterias() {
 		return materiaDAO.findAll();
 	}
-
-	@Override
-	public Materia findById(String id) {
-		return this.materiaDAO.findById(id);
-	}
-
-	@Override
-	public Materia save(Materia materia) {
-		this.materiaDAO.save(materia);
-		
-		return materia;
-	}
 	
 }
