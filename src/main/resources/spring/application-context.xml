@@ -16,6 +16,7 @@
 	<context:component-scan base-package="com.edu.untref.gcu" />
  	<context:annotation-config />
 	
+	<mvc:default-servlet-handler/>
 	<mvc:annotation-driven />
 	
 	<context:property-placeholder properties-ref="props" />
@@ -24,6 +25,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:db.properties</value>
+				<value>classpath:swagger.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -57,5 +59,7 @@
     <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
+    
+    <bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
  
 </beans>

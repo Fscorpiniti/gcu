@@ -11,15 +11,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.edu.untref.gcu.domain.Materia;
 import com.edu.untref.gcu.services.MateriaService;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 @Controller
+@RequestMapping(value="/materias") 
+@Api(value="materiaController", description="EndPoint que permite realizar acciones sobre las materias.")
 public class MateriaController {
 
 	@Resource(name = "materiaService")
 	private MateriaService materiaService;
 	
 	@ResponseBody
-	@RequestMapping(value = "/materias",method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
+	@ApiOperation(value = "Devuelve todas las materias de la carrera ingenieria en computacion.")
 	public List<Materia> getAllMaterias() {
 		return materiaService.getAllMaterias();
 	}
