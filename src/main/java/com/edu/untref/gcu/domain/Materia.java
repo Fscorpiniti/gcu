@@ -14,37 +14,12 @@ public class Materia extends PersistibleObject {
 	@Column(length = 255, nullable = false)
 	private String nombre;
 	
-	@Column(length = 11, nullable = false)
-	private Integer cuatrimestre;
-	
-	@Column(length = 11, nullable = false)
-	private Integer anio;
-	
-	@Column(length = 11, nullable = false)
-	private Integer horas;
-
 	public String getNombre() {
 		return nombre;
 	}
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public Integer getCuatrimestre() {
-		return cuatrimestre;
-	}
-
-	public void setCuatrimestre(Integer cuatrimestre) {
-		this.cuatrimestre = cuatrimestre;
-	}
-
-	public Integer getAnio() {
-		return anio;
-	}
-
-	public void setAnio(Integer anio) {
-		this.anio = anio;
 	}
 
 	public Integer getCodigo() {
@@ -55,12 +30,4 @@ public class Materia extends PersistibleObject {
 		this.codigo = codigo;
 	}
 
-	public Integer getHoras() {
-		return horas;
-	}
-
-	public void setHoras(Integer horas) {
-		this.horas = horas;
-	}
-	
 }
