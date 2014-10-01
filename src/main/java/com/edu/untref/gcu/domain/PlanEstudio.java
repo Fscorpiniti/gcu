@@ -37,4 +37,16 @@ public class PlanEstudio extends PersistibleObject {
 		this.carrera = carrera;
 	}
 	
+	
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (obj.getClass().equals(PlanEstudio.class)){
+//			PlanEstudio objToCompare = (PlanEstudio)obj;
+//			if (objToCompare.getAnio().equals(this.getAnio())&& objToCompare.getCarrera().equals(this.getCarrera())&&objToCompare.getId().equals(this.getId())){
+//				return true;
+//			}
+//		}
+//		
+//		return false;
+//	}
 }
