@@ -167,36 +167,43 @@
 					<wtpContextName>gcu</wtpContextName>
 				</configuration>
 			</plugin>
-<!-- 			<plugin> -->
-<!-- 			    <groupId>org.liquibase</groupId> -->
-<!-- 			    <artifactId>liquibase-maven-plugin</artifactId> -->
-<!-- 			    <version>2.0.5</version> -->
-<!-- 			    <configuration> -->
-<!-- 					<skip>${skipTests}</skip> -->
-<!-- 						<propertyFile>target/classes/liquibase.properties</propertyFile> -->
-<!-- 						<changeLogFile>target/classes/liquibase/db.changelog.xml</changeLogFile> -->
-<!-- 				</configuration> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>drop-db</id> -->
-<!-- 						<phase>process-resources</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>dropAll</goal> -->
-<!-- 						</goals> -->
-<!-- 						<configuration> -->
-<!-- 							<propertyFile>target/classes/liquibase.properties</propertyFile> -->
-<!-- 							<changeLogFile>target/classes/liquibase/db.changelog.xml</changeLogFile> -->
-<!-- 						</configuration> -->
-<!-- 					</execution> -->
-<!-- 					<execution> -->
-<!-- 					<id>mark-db-up-to-date</id> -->
-<!-- 					<phase>test-compile</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>changelogSync</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-dependency-plugin</artifactId>
+		        <version>2.3</version>
+		        <executions>
+		            <execution>
+		                <phase>package</phase>
+		                <goals>
+		                    <goal>copy</goal> 
+		                </goals>
+		                <configuration>
+		                    <artifactItems>
+		                        <artifactItem>
+		                            <groupId>org.mortbay.jetty</groupId>
+		                            <artifactId>jetty-runner</artifactId>
+		                            <version>8.0.4.v20111024</version>
+		                            <destFileName>jetty-runner.jar</destFileName>
+		                        </artifactItem>
+		                        <!-- not available in jetty 8.0.4 -->
+		                        <artifactItem>
+		                            <groupId>javax.el</groupId>
+		                            <artifactId>el-api</artifactId>
+		                            <version>2.2</version>
+		                            <destFileName>el-api.jar</destFileName>
+		                        </artifactItem>
+		                      <!-- not available in jetty 8.0.4 -->
+		                        <artifactItem>
+		                            <groupId>org.glassfish.web</groupId>
+		                            <artifactId>javax.el</artifactId>
+		                            <version>2.2.3</version>
+		                            <destFileName>el-impl.jar</destFileName>
+		                        </artifactItem>
+		                    </artifactItems>
+		                </configuration>
+		            </execution>
+		        </executions>
+		    </plugin>
 		</plugins>
 	</build>
 
