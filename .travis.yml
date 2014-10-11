@@ -2,3 +2,4 @@ language: java
 script: mvn clean install
 script: mvn test
 script: git remote add heroku git@heroku.com:gcu-api.git
+script: git push heroku master
