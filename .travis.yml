@@ -1,8 +1,6 @@
 language: java
-script: mvn clean install
-script: mvn test
+script: mvn clean install test
 deploy:
-	provider: heroku
-	api-key: "5b2d8a66-3584-4da2-8c99-ce97d60873ec"-++
-	app: gcu-api
-
+  provider: heroku
+  api_key: "5b2d8a66-3584-4da2-8c99-ce97d60873ec"
+  app: gcu-api
