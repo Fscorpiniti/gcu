@@ -1,6 +1,8 @@
 language: java
-#script: mvn clean install
-#script: mvn test
-#script: git remote add heroku git@heroku.com:gcu-api.git
-#script: git push heroku master
-script: git remote -v
+script: mvn clean install
+script: mvn test
+deploy:
+	provider: heroku
+	api-key: "5b2d8a66-3584-4da2-8c99-ce97d60873ec"-++
+	app: gcu-api
+
