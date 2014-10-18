@@ -25,8 +25,16 @@ public class PlanMateria extends PersistibleObject {
 	private Materia materia;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	private Materia correlativa;
+	private PlanMateria correlativa;
 	
+	public PlanMateria getCorrelativa() {
+		return correlativa;
+	}
+
+	public void setCorrelativa(PlanMateria correlativa) {
+		this.correlativa = correlativa;
+	}
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	private PlanEstudio planEstudio;
 
@@ -60,14 +68,6 @@ public class PlanMateria extends PersistibleObject {
 	
 	public void setMateria(Materia materia) {
 		this.materia = materia;
-	}
-	
-	public Materia getCorrelativa() {
-		return correlativa;
-	}
-	
-	public void setCorrelativa(Materia correlativa) {
-		this.correlativa = correlativa;
 	}
 	
 	public static long getSerialversionuid() {
