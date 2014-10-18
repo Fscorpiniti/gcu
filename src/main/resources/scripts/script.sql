@@ -121,3 +121,15 @@ INSERT INTO `plan_materia` (`id`, `materia_id`, `anio`, `cuatrimestre`, `correla
 (56, 523, 5, 2, 422, 60, 1),
 (57, 524, 5, 2, 513, 60, 1),
 (58, 525, 5, 2, 414, 60, 1);
+
+INSERT INTO `alumno` (`id`, `legajo`, `apellido`, `nombre`, `planEstudio_id`, `anioIngreso`) VALUES
+(1, 17478, "Rivero", "Gustavo Eduardo", 1, 2010),
+(2, 19552, "Etchepare Fajardo", "Martin Alejandro", 1, 2010),
+(3, 21178, "Bengolea", "Federico Alberto", 1, 2012),
+(4, 23865, "Fierro", "Leandro Matias", 1, 2010),
+(5, 26768, "Garcia", "Cristian Ezequiel", 1, 2011),
+(6, 26834, "Sethson", "Sebastian Nahuel", 1, 2011),
+(7, 27051, "Alfonso", "Lucas Daniel", 1, 2012),
+(8, 27066, "Romano", "Leonardo Angel", 1, 2012),
+(9, 29800, "Neboli", "Daniela Carla", 1, 2012),
+(10, 29914, "Klemenc", "Marco", 1, 2012);
