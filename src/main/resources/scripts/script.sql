@@ -135,7 +135,7 @@ INSERT INTO `alumno` (`id`, `legajo`, `apellido`, `nombre`, `planEstudio_id`, `a
 (10, 29914, "Klemenc", "Marco", 1, 2012);
 
 INSERT INTO `situacion_alumno` (`id`, `alumno_id`,`materia_id`, `estado_situacion`, `fecha_situacion`) VALUES
-(1, 1, 1, "REGULAR", '15-12-2013'),
+(1, 1, 1, "REGULAR", '2013-12-15'),
 (2, 2, 2, "APROBADO", '2013-12-15'),
 (3, 3, 3, "REGULAR", '2013-12-15'),
 (4, 4, 4, "ABANDONADO", '2013-12-15'),
