@@ -19,7 +19,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @Controller
 @RequestMapping(value = "/planes_estudio")
-@Api(value = "planEstudioController", description = "EndPoint que permite realizar acciones sobre las planes de estudio.")
+@Api(value = "planEstudioController", description = "EndPoint que permite realizar acciones sobre los planes de estudio.")
 public class PlanEstudioController {
 
 	@Resource(name = "planEstudioService")
