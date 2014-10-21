@@ -186,7 +186,7 @@ INSERT INTO Test.alumno (id, legajo, apellido, nombre, planEstudio_id, anioIngre
 (9, 29800, 'Neboli', 'Daniela Carla', 1, 2012),
 (10, 29914, 'Klemenc', 'Marco', 1, 2012);
 
-INSERT INTO Test.situacion_alumno (id, alumno_id,materia_id, estado_situacion, fecha_situacion) VALUES
+INSERT INTO Test.situacion_alumno (id, alumno_id, materia_id, estado_situacion, fecha_situacion) VALUES
 (1, 1, 1, 'REGULAR', '2013-12-15'),
 (2, 2, 2, 'APROBADO', '2013-12-15'),
 (3, 3, 3, 'REGULAR', '2013-12-15'),
@@ -196,3 +196,5 @@ INSERT INTO Test.situacion_alumno (id, alumno_id,materia_id, estado_situacion, f
 (7, 7, 7, 'CURSANDO', '2013-12-15'),
 (8, 8, 13, 'APROBADO', '2013-12-15'),
 (9, 9, 14, 'REGULAR', '2013-12-15');
+(10, 9, 9, 'CURSANDO', '2013-12-15');
+(11, 10, 17, 'APROBADO', '2013-12-15');
