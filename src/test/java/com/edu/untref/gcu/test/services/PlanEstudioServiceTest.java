@@ -102,13 +102,13 @@ public class PlanEstudioServiceTest {
 	}
 	
 	@Test
-	public void cantidadDePosiblesCursantesAAnalsisTresDeberiaSerUno(){
-		Assert.assertEquals(1, (int)posiblesCursantesDTOs.get(15).getCantidadCursantes());
+	public void cantidadDePosiblesCursantesAAnalsisTresDeberiaSerCero(){
+		Assert.assertEquals(0, (int)posiblesCursantesDTOs.get(15).getCantidadCursantes());
 	}
 	
 	@Test
-	public void cantidadDePosiblesCursantesAEstructurasTresDeberiaSerDos(){
-		Assert.assertEquals(2, (int)posiblesCursantesDTOs.get(23).getCantidadCursantes());
+	public void cantidadDePosiblesCursantesAEstructurasTresDeberiaSerCero(){
+		Assert.assertEquals(0,(int)posiblesCursantesDTOs.get(23).getCantidadCursantes());
 	}
 	
 	@Test

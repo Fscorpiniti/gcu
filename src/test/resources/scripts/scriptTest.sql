@@ -196,5 +196,3 @@ INSERT INTO Test.situacion_alumno (id, alumno_id, materia_id, estado_situacion, 
 (7, 7, 7, 'CURSANDO', '2013-12-15'),
 (8, 8, 13, 'APROBADO', '2013-12-15'),
 (9, 9, 14, 'REGULAR', '2013-12-15');
-(10, 9, 9, 'CURSANDO', '2013-12-15');
-(11, 10, 17, 'APROBADO', '2013-12-15');
