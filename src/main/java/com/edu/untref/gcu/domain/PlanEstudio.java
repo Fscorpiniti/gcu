@@ -22,7 +22,6 @@ public class PlanEstudio extends PersistibleObject {
 		return anio;
 	}
 
-
 	public void setAnio(Integer anio) {
 		this.anio = anio;
 	}
