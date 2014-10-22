@@ -107,8 +107,8 @@ public class PlanEstudioServiceTest {
 	}
 	
 	@Test
-	public void cantidadDePosiblesCursantesAEstructurasTresDeberiaSerCero(){
-		Assert.assertEquals(0,(int)posiblesCursantesDTOs.get(23).getCantidadCursantes());
+	public void cantidadDePosiblesCursantesAEstructurasTresDeberiaSerUno(){
+		Assert.assertEquals(1,(int)posiblesCursantesDTOs.get(23).getCantidadCursantes());
 	}
 	
 	@Test
