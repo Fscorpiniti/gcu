@@ -1,9 +1,11 @@
 package com.edu.untref.gcu.dtos;
 
 import com.edu.untref.gcu.domain.PlanMateria;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PosiblesCursantesMateriaDTO {
 
+	@JsonProperty(value = "cantidad_cursantes")
 	private Integer cantidadCursantes;
 	
 	private PlanMateria materia;

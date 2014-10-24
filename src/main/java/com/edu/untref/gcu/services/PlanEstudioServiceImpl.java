@@ -55,30 +55,42 @@ public class PlanEstudioServiceImpl implements PlanEstudioService {
 		while (iteradorPlanMaterias.hasNext()) {
 			PlanMateria materia = iteradorPlanMaterias.next();
 
-			List<Alumno> noPosiblesCursantes = this.situacionAlumnoDAO
+			List<Alumno> sinProbabilidadesCursar = this.situacionAlumnoDAO
 					.findNoPosiblesCursantes(materia);
 
 			if (materia.getCorrelativa() == null) {
-				List<Alumno> posiblesCursantes = this.alumnoDAO
-						.findDifferenceList(noPosiblesCursantes);
-
-				result.add(new PosiblesCursantesMateriaDTO(materia,
-						posiblesCursantes.size()));
+				procesarMateriaSinCorrelativa(result, materia, sinProbabilidadesCursar);
 			} else {
-				List<Alumno> alumnosConCorrelativa = this.situacionAlumnoDAO
-						.findAlumnosCorrelacionHabilitada(materia
-								.getCorrelativa());
-
-				List<Alumno> difference = this.differenceList(
-						noPosiblesCursantes, alumnosConCorrelativa);
-				
-				result.add(new PosiblesCursantesMateriaDTO(materia,
-						difference.size()));
+				procesarMateriaConCorrelativa(result, materia, sinProbabilidadesCursar);
 			}
 
 		}
 
 		return result;
+	}
+
+	private void procesarMateriaConCorrelativa(List<PosiblesCursantesMateriaDTO> result,
+			PlanMateria materia, List<Alumno> sinProbabilidadesCursar) {
+		
+		List<Alumno> alumnosConCorrelativa = this.situacionAlumnoDAO
+				.findAlumnosCorrelacionHabilitada(materia
+						.getCorrelativa());
+
+		List<Alumno> difference = this.differenceList(
+				sinProbabilidadesCursar, alumnosConCorrelativa);
+		
+		result.add(new PosiblesCursantesMateriaDTO(materia,
+				difference.size()));
+	}
+
+	private void procesarMateriaSinCorrelativa(List<PosiblesCursantesMateriaDTO> result,
+			PlanMateria materia, List<Alumno> sinProbabilidadesCursar) {
+		
+		List<Alumno> posiblesCursantes = this.alumnoDAO
+				.findDifferenceList(sinProbabilidadesCursar);
+
+		result.add(new PosiblesCursantesMateriaDTO(materia,
+				posiblesCursantes.size()));
 	}
 
 	private List<Alumno> differenceList(List<Alumno> noPosiblesCursantes,
