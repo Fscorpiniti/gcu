@@ -39,76 +39,76 @@ public class PlanEstudioServiceTest {
 	
 	@Test
 	public void cantidadDePosiblesCursantesAMetodologiaDeberiaSerDiez(){
-		Assert.assertEquals(10, (int)posiblesCursantesDTOs.get(30).getCantidadCursantes());
+		Assert.assertEquals(10, (int)posiblesCursantesDTOs.get(30).getAlumnosPosiblesCursantes().size());
 	}
 	
 	@Test
 	public void cantidadDePosiblesCursantesAFisicaUnoDeberiaSerNueve(){
-		Assert.assertEquals(9, (int)posiblesCursantesDTOs.get(0).getCantidadCursantes());
+		Assert.assertEquals(9, (int)posiblesCursantesDTOs.get(0).getAlumnosPosiblesCursantes().size());
 	}
 	
 	@Test
 	public void cantidadDePosiblesCursantesAAnalisisUnoDeberiaSerNueve(){
-		Assert.assertEquals(9, (int)posiblesCursantesDTOs.get(1).getCantidadCursantes());
+		Assert.assertEquals(9, (int)posiblesCursantesDTOs.get(1).getAlumnosPosiblesCursantes().size());
 	}
 
 	@Test
 	public void cantidadDePosiblesCursantesADiscretaUnoDeberiaSerNueve(){
-		Assert.assertEquals(9, (int)posiblesCursantesDTOs.get(2).getCantidadCursantes());
+		Assert.assertEquals(9, (int)posiblesCursantesDTOs.get(2).getAlumnosPosiblesCursantes().size());
 	}
 	
 	@Test
 	public void cantidadDePosiblesCursantesAEstructurasUnoDeberiaSerNueve(){
-		Assert.assertEquals(9, (int)posiblesCursantesDTOs.get(3).getCantidadCursantes());
+		Assert.assertEquals(9, (int)posiblesCursantesDTOs.get(3).getAlumnosPosiblesCursantes().size());
 	}
 	
 	@Test
 	public void cantidadDePosiblesCursantesAAlgebraUnoDeberiaSerNueve(){
-		Assert.assertEquals(9, (int)posiblesCursantesDTOs.get(4).getCantidadCursantes());
+		Assert.assertEquals(9, (int)posiblesCursantesDTOs.get(4).getAlumnosPosiblesCursantes().size());
 	}
 	
 	/* MATERIAS CON UNA CORRELATIVA */
 	
 	@Test
 	public void cantidadDePosiblesCursantesADiscretaDosDeberiaSerUno(){
-		Assert.assertEquals(1, (int)posiblesCursantesDTOs.get(9).getCantidadCursantes());
+		Assert.assertEquals(1, (int)posiblesCursantesDTOs.get(9).getAlumnosPosiblesCursantes().size());
 	}
 	
 	@Test
 	public void cantidadDePosiblesCursantesALenguajeUnoDeberiaSerCero(){
-		Assert.assertEquals(0, (int)posiblesCursantesDTOs.get(10).getCantidadCursantes());
+		Assert.assertEquals(0, (int)posiblesCursantesDTOs.get(10).getAlumnosPosiblesCursantes().size());
 	}
 	
 	@Test
 	public void cantidadDePosiblesCursantesAProbabilidadUnoDeberiaSerUno(){
-		Assert.assertEquals(1, (int)posiblesCursantesDTOs.get(14).getCantidadCursantes());
+		Assert.assertEquals(1, (int)posiblesCursantesDTOs.get(14).getAlumnosPosiblesCursantes().size());
 	}
 	
 	@Test
 	public void cantidadDePosiblesCursantesAEstructurasDosDeberiaSerCero(){
-		Assert.assertEquals(0, (int)posiblesCursantesDTOs.get(16).getCantidadCursantes());
+		Assert.assertEquals(0, (int)posiblesCursantesDTOs.get(16).getAlumnosPosiblesCursantes().size());
 	}
 	
 	@Test
 	public void cantidadDePosiblesCursantesAnalisisDosDeberiaSerUno(){
-		Assert.assertEquals(1, (int)posiblesCursantesDTOs.get(8).getCantidadCursantes());
+		Assert.assertEquals(1, (int)posiblesCursantesDTOs.get(8).getAlumnosPosiblesCursantes().size());
 	}
 	
 	/* MATERIAS CON DOS CORRELATIVAS */
 	
 	@Test
 	public void cantidadDePosiblesCursantesAFisicaTresDeberiaSerCero(){
-		Assert.assertEquals(0, (int)posiblesCursantesDTOs.get(20).getCantidadCursantes());
+		Assert.assertEquals(0, (int)posiblesCursantesDTOs.get(20).getAlumnosPosiblesCursantes().size());
 	}
 	
 	@Test
 	public void cantidadDePosiblesCursantesAAnalsisTresDeberiaSerCero(){
-		Assert.assertEquals(0, (int)posiblesCursantesDTOs.get(15).getCantidadCursantes());
+		Assert.assertEquals(0, (int)posiblesCursantesDTOs.get(15).getAlumnosPosiblesCursantes().size());
 	}
 	
 	@Test
 	public void cantidadDePosiblesCursantesAEstructurasTresDeberiaSerUno(){
-		Assert.assertEquals(1,(int)posiblesCursantesDTOs.get(23).getCantidadCursantes());
+		Assert.assertEquals(1,(int)posiblesCursantesDTOs.get(23).getAlumnosPosiblesCursantes().size());
 	}
 	
 	@Test
