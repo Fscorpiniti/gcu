@@ -79,8 +79,7 @@ public class PlanEstudioServiceImpl implements PlanEstudioService {
 		List<Alumno> difference = this.differenceList(
 				sinProbabilidadesCursar, alumnosConCorrelativa);
 		
-		result.add(new PosiblesCursantesMateriaDTO(materia,
-				difference.size()));
+		result.add(new PosiblesCursantesMateriaDTO(materia, difference));
 	}
 
 	private void procesarMateriaSinCorrelativa(List<PosiblesCursantesMateriaDTO> result,
@@ -89,8 +88,7 @@ public class PlanEstudioServiceImpl implements PlanEstudioService {
 		List<Alumno> posiblesCursantes = this.alumnoDAO
 				.findDifferenceList(sinProbabilidadesCursar);
 
-		result.add(new PosiblesCursantesMateriaDTO(materia,
-				posiblesCursantes.size()));
+		result.add(new PosiblesCursantesMateriaDTO(materia, posiblesCursantes));
 	}
 
 	private List<Alumno> differenceList(List<Alumno> noPosiblesCursantes,

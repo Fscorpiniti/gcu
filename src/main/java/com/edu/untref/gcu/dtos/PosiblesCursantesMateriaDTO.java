@@ -1,26 +1,20 @@
 package com.edu.untref.gcu.dtos;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.edu.untref.gcu.domain.Alumno;
 import com.edu.untref.gcu.domain.PlanMateria;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PosiblesCursantesMateriaDTO {
-
-	@JsonProperty(value = "cantidad_cursantes")
-	private Integer cantidadCursantes;
 	
 	private PlanMateria materia;
+	
+	private List<Alumno> alumnosPosiblesCursantes = new ArrayList<Alumno>();
 
-	public PosiblesCursantesMateriaDTO(PlanMateria materia, int size) {
+	public PosiblesCursantesMateriaDTO(PlanMateria materia, List<Alumno> alumnosPosiblesCursantes) {
 		this.materia = materia;
-		this.cantidadCursantes = size;
-	}
-
-	public Integer getCantidadCursantes() {
-		return cantidadCursantes;
-	}
-
-	public void setCantidadCursantes(Integer cantidadCursantes) {
-		this.cantidadCursantes = cantidadCursantes;
+		this.alumnosPosiblesCursantes = alumnosPosiblesCursantes;
 	}
 
 	public PlanMateria getMateria() {
@@ -29,5 +23,9 @@ public class PosiblesCursantesMateriaDTO {
 
 	public void setMateria(PlanMateria materia) {
 		this.materia = materia;
-	}	
+	}
+
+	public List<Alumno> getAlumnosPosiblesCursantes() {
+		return alumnosPosiblesCursantes;
+	}
 }
