@@ -1,6 +1,7 @@
 package com.edu.untref.gcu.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,8 +44,7 @@ public class PlanEstudioServiceImpl implements PlanEstudioService {
 	}
 
 	@Override
-	public List<PosiblesCursantesMateriaDTO> getAllPosiblesCursantesMaterias(
-			String id) {
+	public List<PosiblesCursantesMateriaDTO> getAllPosiblesCursantesMaterias(String id) {
 
 		List<PosiblesCursantesMateriaDTO> result = new ArrayList<PosiblesCursantesMateriaDTO>();
 
@@ -67,6 +67,40 @@ public class PlanEstudioServiceImpl implements PlanEstudioService {
 		}
 
 		return result;
+	}
+	
+	@Override
+	public List<PosiblesCursantesMateriaDTO> getAllMateriasByCuatrimestre(String id, Paridad isPar){
+		
+		List<PosiblesCursantesMateriaDTO> posiblesCursantes = getAllPosiblesCursantesMaterias(id);
+		
+		List<PosiblesCursantesMateriaDTO> posiblesCursantesResult = new ArrayList<PosiblesCursantesMateriaDTO>();
+		
+		for(PosiblesCursantesMateriaDTO posibleCursante: posiblesCursantes){
+			
+			if(definirParidad(posibleCursante.getMateria().getCuatrimestre(), isPar)){
+				
+				posiblesCursantesResult.add(posibleCursante);
+			}
+		}
+		
+		Collections.sort(posiblesCursantesResult);
+
+		return posiblesCursantesResult;
+		
+	}
+	
+	private boolean definirParidad (int cuatrimestre, Paridad paridad){
+		
+		if (paridad.equals(Paridad.PAR)){
+			
+			return (cuatrimestre%2==0);
+		}
+		
+		else {
+			
+			return (cuatrimestre%2!=0);
+		}
 	}
 
 	private void procesarMateriaConCorrelativa(List<PosiblesCursantesMateriaDTO> result,

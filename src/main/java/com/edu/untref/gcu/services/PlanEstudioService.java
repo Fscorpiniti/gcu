@@ -14,4 +14,7 @@ public interface PlanEstudioService {
 
 	List<PosiblesCursantesMateriaDTO> getAllPosiblesCursantesMaterias(String id);
 
+	List<PosiblesCursantesMateriaDTO> getAllMateriasByCuatrimestre(String id,
+			Paridad isPar);
+
 }
