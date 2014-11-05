@@ -6,8 +6,7 @@ import java.util.List;
 import com.edu.untref.gcu.domain.Alumno;
 import com.edu.untref.gcu.domain.PlanMateria;
 
-public class PosiblesCursantesMateriaDTO implements
-		Comparable<PosiblesCursantesMateriaDTO> {
+public class PosiblesCursantesMateriaDTO implements Comparable<PosiblesCursantesMateriaDTO> {
 
 	private PlanMateria materia;
 
