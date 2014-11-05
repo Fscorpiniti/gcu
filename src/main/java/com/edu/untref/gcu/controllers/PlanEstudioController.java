@@ -26,8 +26,9 @@ public class PlanEstudioController {
 	private PlanEstudioService planEstudioService;
 
 	@ResponseBody
-	@RequestMapping(value = "/{id}/materias", method = RequestMethod.GET)
-	@ApiOperation(value = "Devuelve todos los planes de las materias, que incluye cuatrimestre, anio, carga horaria, correlativa dentro de un determinado plan de estudios.")
+	@RequestMapping(value = "/{id}/materias", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+	@ApiOperation(value = "Devuelve todos los planes de las materias, que incluye cuatrimestre, anio, " +
+			"carga horaria, correlativa dentro de un determinado plan de estudios.")
 	public List<PlanMateria> getAllMaterias(
 			@ApiParam(name = "id", required = true) @PathVariable String id) {
 
@@ -35,9 +36,9 @@ public class PlanEstudioController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/{id}/materias/probables-cursantes", method = RequestMethod.GET)
-	@ApiOperation(value = "Devuelve todos los planes de las materias, que incluye cuatrimestre, anio, carga horaria, correlativa dentro de un determinado plan de estudios."
-			+ " Ademas los posibles cursantes de cada materia.")
+	@RequestMapping(value = "/{id}/materias/probables-cursantes", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+	@ApiOperation(value = "Devuelve todos los planes de las materias, que incluye cuatrimestre, anio, carga horaria, " +
+			"correlativa dentro de un determinado plan de estudios. Ademas los posibles cursantes de cada materia.")
 	public List<PosiblesCursantesMateriaDTO> getAllPosiblesCursantesMaterias(
 			@ApiParam(name = "id", required = true) @PathVariable String id) {
 
