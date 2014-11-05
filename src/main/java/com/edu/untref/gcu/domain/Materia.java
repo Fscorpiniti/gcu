@@ -11,7 +11,7 @@ public class Materia extends PersistibleObject {
 	@Column(length = 11, nullable = false)
 	private Integer codigo;
 
-	@Column(length = 255, nullable = false)
+	@Column(length = 255, nullable = false, columnDefinition = "varchar(255) COLLATE utf8_bin")
 	private String nombre;
 	
 	public String getNombre() {

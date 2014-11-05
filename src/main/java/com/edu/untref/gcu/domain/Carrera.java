@@ -8,7 +8,7 @@ public class Carrera extends PersistibleObject{
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(length = 255, nullable = false)
+	@Column(length = 255, nullable = false, columnDefinition = "varchar(255) COLLATE utf8_bin")
 	private String nombre;
 
 	public String getNombre() {
