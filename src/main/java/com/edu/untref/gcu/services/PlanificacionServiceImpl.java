@@ -48,7 +48,7 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 		primerNivel.setJueves(materias.remove(0));
 		primerNivel.setViernes(materias.remove(0));
 		
-		if (niveles.size() > 0) {
+		if (materias.size() > 0) {
 			primerNivel.setSabado(materias.remove(0));
 		}
 		
