@@ -2,6 +2,7 @@ package com.edu.untref.gcu.services;
 
 import java.util.List;
 
+import com.edu.untref.gcu.domain.Paridad;
 import com.edu.untref.gcu.domain.PlanEstudio;
 import com.edu.untref.gcu.domain.PlanMateria;
 import com.edu.untref.gcu.dtos.PosiblesCursantesMateriaDTO;
@@ -16,7 +17,5 @@ public interface PlanEstudioService {
 
 	List<PosiblesCursantesMateriaDTO> getAllMateriasByCuatrimestre(String id,
 			Paridad isPar);
-
-	List<PosiblesCursantesMateriaDTO> getAllMateriasByCuatrimestre(String idPlan, String anio, String cuatrimestre);
 
 }

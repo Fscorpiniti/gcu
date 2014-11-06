@@ -7,8 +7,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.edu.untref.gcu.domain.Semana;
+import com.edu.untref.gcu.domain.Paridad;
 import com.edu.untref.gcu.dtos.NivelPlanificacionDTO;
+import com.edu.untref.gcu.dtos.PlanificacionCuatrimestreDTO;
 import com.edu.untref.gcu.dtos.PosiblesCursantesMateriaDTO;
 
 @Service("planificacionService")
@@ -18,43 +19,96 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 	private PlanEstudioService planEstudioService;
 
 	@Override
-	public Semana getPlanificacionPorParidad(String id, String paridad) {
+	public PlanificacionCuatrimestreDTO planificar(String id, String paridad) {
 
-		List<PosiblesCursantesMateriaDTO> materias = planEstudioService.getAllMateriasByCuatrimestre(id, Paridad.valueOf(paridad));
+		Paridad paridadSeleccionada = Paridad.valueOf(paridad);
 		
-		Semana semana = new Semana();
-
-		semana.getLunes().getPosiblesCursantes().add(materias.remove(0));
-		semana.getMartes().getPosiblesCursantes().add(materias.remove(0));
-		semana.getMiercoles().getPosiblesCursantes().add(materias.remove(0));
-		semana.getJueves().getPosiblesCursantes().add(materias.remove(0));
-		semana.getViernes().getPosiblesCursantes().add(materias.remove(0));
-		semana.getSabado().getPosiblesCursantes().add(materias.remove(0));
+		List<PosiblesCursantesMateriaDTO> materias = planEstudioService.getAllMateriasByCuatrimestre(id, paridadSeleccionada);
+			
+		PlanificacionCuatrimestreDTO cuatrimestreDTO = new PlanificacionCuatrimestreDTO();
 		
-		return semana;
+		if (paridadSeleccionada.equals(Paridad.PAR)) {
+			cuatrimestreDTO = processParidadPar(materias, cuatrimestreDTO);
+		} else {
+			cuatrimestreDTO = processParidadImpar(materias, cuatrimestreDTO);
+		}
+	
+		return cuatrimestreDTO;
 	}
 
-	@Override
-	public List<NivelPlanificacionDTO> planificar(String idPlan, String anio, String cuatrimestre) {
+	private PlanificacionCuatrimestreDTO processParidadPar(List<PosiblesCursantesMateriaDTO> materias, PlanificacionCuatrimestreDTO cuatrimestreDTO) {
+
+		List<PosiblesCursantesMateriaDTO> segundoCuatrimestre = this.filtrarCuatrimestre(1, 2, materias);
+		List<PosiblesCursantesMateriaDTO> cuartoCuatrimestre = this.filtrarCuatrimestre(2, 2, materias);
+		List<PosiblesCursantesMateriaDTO> sextoCuatrimestre = this.filtrarCuatrimestre(3, 2, materias);
+		List<PosiblesCursantesMateriaDTO> octavoCuatrimestre = this.filtrarCuatrimestre(4, 2, materias);
+		List<PosiblesCursantesMateriaDTO> decimoCuatrimestre = this.filtrarCuatrimestre(5, 2, materias);
 		
-		List<PosiblesCursantesMateriaDTO> materias = planEstudioService.getAllMateriasByCuatrimestre(idPlan, anio, cuatrimestre);
+		NivelPlanificacionDTO nivelSegundoCuatriDTO = processNivel(segundoCuatrimestre);
+		NivelPlanificacionDTO nivelCuartoCuatriDTO = processNivel(cuartoCuatrimestre);
+		NivelPlanificacionDTO nivelSextoCuatriDTO = processNivel(sextoCuatrimestre);
+		NivelPlanificacionDTO nivelOctavoCuatriDTO = processNivel(octavoCuatrimestre);
+		NivelPlanificacionDTO nivelDecimoCuatriDTO = processNivel(decimoCuatrimestre);
 		
-		List<NivelPlanificacionDTO> niveles = new ArrayList<NivelPlanificacionDTO>();
+		cuatrimestreDTO.getNivelesSegundoCuatri().add(nivelSegundoCuatriDTO);
+		cuatrimestreDTO.getNivelesCuartoCuatri().add(nivelCuartoCuatriDTO);
+		cuatrimestreDTO.getNivelesSextoCuatri().add(nivelSextoCuatriDTO);
+		cuatrimestreDTO.getNivelesOctavoCuatri().add(nivelOctavoCuatriDTO);
+		cuatrimestreDTO.getNivelesDecimoCuatri().add(nivelDecimoCuatriDTO);
+				
+		return cuatrimestreDTO;
+	}
+
+	private PlanificacionCuatrimestreDTO processParidadImpar(List<PosiblesCursantesMateriaDTO> materias, PlanificacionCuatrimestreDTO cuatrimestreDTO) {
+	
+		List<PosiblesCursantesMateriaDTO> primerCuatrimestre = this.filtrarCuatrimestre(1, 1, materias);
+		List<PosiblesCursantesMateriaDTO> tercerCuatrimestre = this.filtrarCuatrimestre(2, 1, materias);
+		List<PosiblesCursantesMateriaDTO> quintoCuatrimestre = this.filtrarCuatrimestre(3, 1, materias);
+		List<PosiblesCursantesMateriaDTO> septimoCuatrimestre = this.filtrarCuatrimestre(4, 1, materias);
+		List<PosiblesCursantesMateriaDTO> novenoCuatrimestre = this.filtrarCuatrimestre(5, 1, materias);
 		
-		NivelPlanificacionDTO primerNivel = new NivelPlanificacionDTO();
-		primerNivel.setLunes(materias.remove(0));
-		primerNivel.setMartes(materias.remove(0));
-		primerNivel.setMiercoles(materias.remove(0));
-		primerNivel.setJueves(materias.remove(0));
-		primerNivel.setViernes(materias.remove(0));
+		NivelPlanificacionDTO nivelPrimeroCuatriDTO = processNivel(primerCuatrimestre);
+		NivelPlanificacionDTO nivelTerceroCuatriDTO = processNivel(tercerCuatrimestre);
+		NivelPlanificacionDTO nivelQuintoCuatriDTO = processNivel(quintoCuatrimestre);
+		NivelPlanificacionDTO nivelSeptimoCuatriDTO = processNivel(septimoCuatrimestre);
+		NivelPlanificacionDTO nivelNovenoCuatriDTO = processNivel(novenoCuatrimestre);
 		
-		if (materias.size() > 0) {
-			primerNivel.setSabado(materias.remove(0));
+		cuatrimestreDTO.getNivelesPrimerCuatri().add(nivelPrimeroCuatriDTO);
+		cuatrimestreDTO.getNivelesTercerCuatri().add(nivelTerceroCuatriDTO);
+		cuatrimestreDTO.getNivelesQuintoCuatri().add(nivelQuintoCuatriDTO);
+		cuatrimestreDTO.getNivelesSeptimoCuatri().add(nivelSeptimoCuatriDTO);
+		cuatrimestreDTO.getNivelesNovenoCuatri().add(nivelNovenoCuatriDTO);
+				
+		return cuatrimestreDTO;
+	}
+
+	private List<PosiblesCursantesMateriaDTO> filtrarCuatrimestre(Integer anio, Integer cuatrimestre,
+			List<PosiblesCursantesMateriaDTO> materias) {
+		
+		List<PosiblesCursantesMateriaDTO> result = new ArrayList<PosiblesCursantesMateriaDTO>();
+		
+		for (PosiblesCursantesMateriaDTO dto : materias) {
+			if (dto.getMateria().getAnio().equals(anio) && dto.getMateria().getCuatrimestre().equals(cuatrimestre)) {
+				result.add(dto);
+			}
 		}
 		
-		niveles.add(primerNivel);
+		return result;
+	}
+	
+	private NivelPlanificacionDTO processNivel(List<PosiblesCursantesMateriaDTO> cuatrimestre) {
+		NivelPlanificacionDTO nivelPlanificacionDTO = new NivelPlanificacionDTO();
+		nivelPlanificacionDTO.setLunes(cuatrimestre.remove(0));
+		nivelPlanificacionDTO.setMartes(cuatrimestre.remove(0));
+		nivelPlanificacionDTO.setMiercoles(cuatrimestre.remove(0));
+		nivelPlanificacionDTO.setJueves(cuatrimestre.remove(0));
+		nivelPlanificacionDTO.setViernes(cuatrimestre.remove(0));
 		
-		return niveles;
+		if (cuatrimestre.size() > 0) {
+			nivelPlanificacionDTO.setSabado(cuatrimestre.remove(0));
+		}
+		
+		return nivelPlanificacionDTO;
 	}
 
 }

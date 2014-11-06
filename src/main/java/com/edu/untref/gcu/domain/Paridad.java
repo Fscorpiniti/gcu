@@ -1,4 +1,4 @@
-package com.edu.untref.gcu.services;
+package com.edu.untref.gcu.domain;
 
 public enum Paridad {
 	
