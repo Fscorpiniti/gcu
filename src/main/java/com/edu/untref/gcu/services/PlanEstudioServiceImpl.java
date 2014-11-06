@@ -139,4 +139,24 @@ public class PlanEstudioServiceImpl implements PlanEstudioService {
 		return result;
 	}
 
+	@Override
+	public List<PosiblesCursantesMateriaDTO> getAllMateriasByCuatrimestre(String idPlan, String anio, String cuatrimestre) {
+		List<PosiblesCursantesMateriaDTO> posiblesCursantesResult = new ArrayList<PosiblesCursantesMateriaDTO>();
+		
+		List<PosiblesCursantesMateriaDTO> posiblesCursantes = getAllPosiblesCursantesMaterias(idPlan);
+		
+		for(PosiblesCursantesMateriaDTO posibleCursante: posiblesCursantes){
+			
+			if(posibleCursante.getMateria().getCuatrimestre().equals(Integer.valueOf(cuatrimestre)) && 
+					posibleCursante.getMateria().getAnio().equals(Integer.valueOf(anio))) {
+			
+				posiblesCursantesResult.add(posibleCursante);
+			}
+		}
+		
+		Collections.sort(posiblesCursantesResult);
+
+		return posiblesCursantesResult;
+	}
+
 }
