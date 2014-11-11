@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.edu.untref.gcu.dtos.PlanificacionCuatrimestreDTO;
+import com.edu.untref.gcu.exceptions.NivelCompletoException;
 import com.edu.untref.gcu.services.PlanificacionService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -25,7 +26,7 @@ public class PlanificacionController {
 	@ResponseBody
 	@RequestMapping(value = "/{paridad}", method = RequestMethod.GET)
 	@ApiOperation(value = "Devuelve la planificación del cuatrimestre par o impar de acuerdo a la variable del path.")
-	public PlanificacionCuatrimestreDTO getAllMaterias(@ApiParam(name = "paridad", required = true) @PathVariable String paridad) {
+	public PlanificacionCuatrimestreDTO getAllMaterias(@ApiParam(name = "paridad", required = true) @PathVariable String paridad) throws NivelCompletoException {
 
 		return planificacionService.planificar("1", paridad.toUpperCase());
 	}
