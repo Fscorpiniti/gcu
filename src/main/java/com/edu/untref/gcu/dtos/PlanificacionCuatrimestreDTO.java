@@ -5,6 +5,8 @@ import java.util.List;
 
 public class PlanificacionCuatrimestreDTO {
 
+	private List<ScoreDTO> scores = new ArrayList<ScoreDTO>();
+	
 	private List<NivelPlanificacionDTO> nivelesPrimerCuatri = new ArrayList<NivelPlanificacionDTO>();
 	
 	private List<NivelPlanificacionDTO> nivelesSegundoCuatri = new ArrayList<NivelPlanificacionDTO>();
@@ -103,6 +105,14 @@ public class PlanificacionCuatrimestreDTO {
 
 	public void setNivelesDecimoCuatri(List<NivelPlanificacionDTO> nivelesDecimoCuatri) {
 		this.nivelesDecimoCuatri = nivelesDecimoCuatri;
+	}
+
+	public List<ScoreDTO> getScores() {
+		return scores;
+	}
+
+	public void setScores(List<ScoreDTO> scores) {
+		this.scores = scores;
 	}
 	
 	

@@ -9,14 +9,19 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.edu.untref.gcu.daos.AlumnoDAO;
 import com.edu.untref.gcu.domain.Alumno;
+import com.edu.untref.gcu.domain.AlumnoCursadasStrategy;
 import com.edu.untref.gcu.domain.ManagerDeNiveles;
 import com.edu.untref.gcu.domain.Paridad;
+import com.edu.untref.gcu.domain.ScoreStrategy;
 import com.edu.untref.gcu.dtos.ColisionMateriaComparator;
 import com.edu.untref.gcu.dtos.ColisionMateriaDTO;
+import com.edu.untref.gcu.dtos.CursadaAlumnoDTO;
 import com.edu.untref.gcu.dtos.NivelPlanificacionDTO;
 import com.edu.untref.gcu.dtos.PlanificacionCuatrimestreDTO;
 import com.edu.untref.gcu.dtos.PosiblesCursantesMateriaDTO;
+import com.edu.untref.gcu.dtos.ScoreDTO;
 import com.edu.untref.gcu.exceptions.NivelCompletoException;
 
 @Service("planificacionService")
@@ -25,6 +30,9 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 	@Resource(name = "planEstudioService")
 	private PlanEstudioService planEstudioService;
 
+	@Resource(name = "alumnoDAO")
+	private AlumnoDAO alumnoDAO;
+	
 	@Override
 	public PlanificacionCuatrimestreDTO planificar(String id, String paridad)
 			throws NivelCompletoException {
@@ -75,8 +83,49 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 		cuatrimestreDTO.getNivelesSextoCuatri().addAll(nivelesSextoCuatriDTO);
 		cuatrimestreDTO.getNivelesOctavoCuatri().addAll(nivelesOctavoCuatriDTO);
 		cuatrimestreDTO.getNivelesDecimoCuatri().addAll(nivelesDecimoCuatriDTO);
+		
+		ScoreStrategy strategy = new AlumnoCursadasStrategy();
+		List<CursadaAlumnoDTO> cursadasAlumnos = strategy.processScore(cuatrimestreDTO, Paridad.PAR);
+		
+		cuatrimestreDTO.getScores().add(this.calcularScoreDeCeroMaterias(cursadasAlumnos, this.alumnoDAO.findAll()));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(1, cursadasAlumnos));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(2, cursadasAlumnos));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(3, cursadasAlumnos));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(4, cursadasAlumnos));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(5, cursadasAlumnos));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(6, cursadasAlumnos));
 
 		return cuatrimestreDTO;
+	}
+
+	private ScoreDTO calcularScoreDeCeroMaterias(
+			List<CursadaAlumnoDTO> cursadasAlumnos, List<Alumno> findAll) {
+		
+		List<Alumno> alumnosCursadas = new ArrayList<Alumno>();
+		
+		for (CursadaAlumnoDTO unaCursada: cursadasAlumnos) {
+			alumnosCursadas.add(unaCursada.getAlumno());
+		}
+		
+		ScoreDTO score = new ScoreDTO();
+		score.setCantidadMaterias(0);
+		score.getAlumnos().addAll(this.differenceList(alumnosCursadas, findAll));
+		
+		return score;
+	}
+	
+	private List<Alumno> differenceList(List<Alumno> lista1,
+			List<Alumno> lista2) {
+
+		List<Alumno> result = new ArrayList<Alumno>();
+		
+		for (Alumno unAlumno: lista1) {
+			if (!lista2.contains(unAlumno)) {
+				result.add(unAlumno);
+			}
+		}
+		
+		return result;
 	}
 
 	private PlanificacionCuatrimestreDTO processParidadImpar(
@@ -110,6 +159,17 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 				nivelesSeptimoCuatriDTO);
 		cuatrimestreDTO.getNivelesNovenoCuatri().addAll(nivelesNovenoCuatriDTO);
 
+		ScoreStrategy strategy = new AlumnoCursadasStrategy();
+		List<CursadaAlumnoDTO> cursadasAlumnos = strategy.processScore(cuatrimestreDTO, Paridad.IMPAR);
+		
+		cuatrimestreDTO.getScores().add(this.calcularScoreDeCeroMaterias(cursadasAlumnos, this.alumnoDAO.findAll()));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(1, cursadasAlumnos));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(2, cursadasAlumnos));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(3, cursadasAlumnos));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(4, cursadasAlumnos));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(5, cursadasAlumnos));
+		cuatrimestreDTO.getScores().add(strategy.calcularScore(6, cursadasAlumnos));
+		
 		return cuatrimestreDTO;
 	}
 
