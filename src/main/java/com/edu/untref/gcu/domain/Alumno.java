@@ -77,6 +77,7 @@ public class Alumno extends PersistibleObject {
 
 	@Override
 	public boolean equals(Object obj) {
+		
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -91,7 +92,5 @@ public class Alumno extends PersistibleObject {
 			return false;
 		return true;
 	}
-	
-	
 
 }
