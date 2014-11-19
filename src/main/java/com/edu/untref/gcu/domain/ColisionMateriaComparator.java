@@ -1,6 +1,8 @@
-package com.edu.untref.gcu.dtos;
+package com.edu.untref.gcu.domain;
 
 import java.util.Comparator;
+
+import com.edu.untref.gcu.dtos.ColisionMateriaDTO;
 
 public class ColisionMateriaComparator implements Comparator<ColisionMateriaDTO>{
 
