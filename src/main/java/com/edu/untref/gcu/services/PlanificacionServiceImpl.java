@@ -55,10 +55,8 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 		return cuatrimestreDTO;
 	}
 
-	private PlanificacionCuatrimestreDTO processParidadPar(
-			List<PosiblesCursantesMateriaDTO> materias,
-			PlanificacionCuatrimestreDTO cuatrimestreDTO)
-			throws NivelCompletoException {
+	private PlanificacionCuatrimestreDTO processParidadPar(List<PosiblesCursantesMateriaDTO> materias,
+			PlanificacionCuatrimestreDTO cuatrimestreDTO) throws NivelCompletoException {
 
 		List<PosiblesCursantesMateriaDTO> segundoCuatrimestre = this
 				.filtrarCuatrimestre(1, 2, materias);
@@ -77,8 +75,7 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 		List<NivelPlanificacionDTO> nivelesOctavoCuatriDTO = procesarNiveles(octavoCuatrimestre);
 		List<NivelPlanificacionDTO> nivelesDecimoCuatriDTO = procesarNiveles(decimoCuatrimestre);
 
-		cuatrimestreDTO.getNivelesSegundoCuatri().addAll(
-				nivelesSegundoCuatriDTO);
+		cuatrimestreDTO.getNivelesSegundoCuatri().addAll(nivelesSegundoCuatriDTO);
 		cuatrimestreDTO.getNivelesCuartoCuatri().addAll(nivelesCuartoCuatriDTO);
 		cuatrimestreDTO.getNivelesSextoCuatri().addAll(nivelesSextoCuatriDTO);
 		cuatrimestreDTO.getNivelesOctavoCuatri().addAll(nivelesOctavoCuatriDTO);
@@ -87,15 +84,73 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 		ScoreStrategy strategy = new AlumnoCursadasStrategy();
 		List<CursadaAlumnoDTO> cursadasAlumnos = strategy.processScore(cuatrimestreDTO, Paridad.PAR);
 		
-		cuatrimestreDTO.getScores().add(this.calcularScoreDeCeroMaterias(cursadasAlumnos, this.alumnoDAO.findAll()));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(1, cursadasAlumnos));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(2, cursadasAlumnos));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(3, cursadasAlumnos));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(4, cursadasAlumnos));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(5, cursadasAlumnos));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(6, cursadasAlumnos));
-
+		this.calcularScoreTipoCuatrimestre(cuatrimestreDTO, strategy, cursadasAlumnos);
+		
+		cuatrimestreDTO.setScore(this.calcularScoreUnificado(cuatrimestreDTO.getScores()));
+		
+		this.calcularScoreCuatrimestresPares(cuatrimestreDTO, strategy);
+				
 		return cuatrimestreDTO;
+	}
+
+	private void calcularScoreCuatrimestresPares(PlanificacionCuatrimestreDTO cuatrimestreDTO, ScoreStrategy strategy) {
+		
+		List<Alumno> all = this.alumnoDAO.findAll();
+		cuatrimestreDTO.setScoreSegundoCuatri(this.calcularScorePorCuatrimestre(cuatrimestreDTO, strategy, cuatrimestreDTO.getNivelesSegundoCuatri(), all));
+		cuatrimestreDTO.setScoreCuartoCuatri(this.calcularScorePorCuatrimestre(cuatrimestreDTO, strategy, cuatrimestreDTO.getNivelesCuartoCuatri(), all));
+		cuatrimestreDTO.setScoreSextoCuatri(this.calcularScorePorCuatrimestre(cuatrimestreDTO, strategy, cuatrimestreDTO.getNivelesSextoCuatri(), all));
+		cuatrimestreDTO.setScoreOctavoCuatri(this.calcularScorePorCuatrimestre(cuatrimestreDTO, strategy, cuatrimestreDTO.getNivelesOctavoCuatri(), all));
+		cuatrimestreDTO.setScoreDecimoCuatri(this.calcularScorePorCuatrimestre(cuatrimestreDTO, strategy, cuatrimestreDTO.getNivelesDecimoCuatri(), all));
+	}
+
+	private Integer calcularScorePorCuatrimestre(PlanificacionCuatrimestreDTO cuatrimestreDTO, ScoreStrategy strategy, 
+			List<NivelPlanificacionDTO> niveles, List<Alumno> all) {
+		
+		List<ScoreDTO> scores = new ArrayList<ScoreDTO>();
+		List<CursadaAlumnoDTO> cursadas = new ArrayList<CursadaAlumnoDTO>();
+		
+		strategy.procesarNiveles(niveles, cursadas);
+				
+		ScoreDTO scoreEnCero = this.calcularScoreDeCeroMaterias(cursadas, all);
+		scores.add(scoreEnCero);
+		
+		int i = 1;
+		while (i <= 7) {
+			ScoreDTO score = strategy.calcularScore(i, cursadas);
+			scores.add(score);
+			i++;
+		}
+		
+		return calcularScoreUnificado(scores);
+	}
+
+	private void calcularScoreTipoCuatrimestre(PlanificacionCuatrimestreDTO cuatrimestreDTO,
+			ScoreStrategy strategy, List<CursadaAlumnoDTO> cursadasAlumnos) {
+		
+		List<Alumno> all = this.alumnoDAO.findAll();
+		Integer resto = all.size();
+		
+		ScoreDTO scoreEnCero = this.calcularScoreDeCeroMaterias(cursadasAlumnos, all);
+		resto -= scoreEnCero.getAlumnos().size();
+		cuatrimestreDTO.getScores().add(scoreEnCero);
+		
+		int i = 1;
+		while (resto > 0) {
+			ScoreDTO score = strategy.calcularScore(i, cursadasAlumnos);
+			cuatrimestreDTO.getScores().add(score);
+			i++;
+			resto -= score.getAlumnos().size();
+		}
+	}
+
+	private Integer calcularScoreUnificado(List<ScoreDTO> scores) {
+		Integer score = 0;
+		
+		for (ScoreDTO unScore: scores) {
+			score += (unScore.getCantidadMaterias() * unScore.getAlumnos().size());
+		}
+		
+		return score;
 	}
 
 	private ScoreDTO calcularScoreDeCeroMaterias(
@@ -114,8 +169,7 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 		return score;
 	}
 	
-	private List<Alumno> differenceList(List<Alumno> lista1,
-			List<Alumno> lista2) {
+	private List<Alumno> differenceList(List<Alumno> lista1, List<Alumno> lista2) {
 
 		List<Alumno> result = new ArrayList<Alumno>();
 		
@@ -128,10 +182,8 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 		return result;
 	}
 
-	private PlanificacionCuatrimestreDTO processParidadImpar(
-			List<PosiblesCursantesMateriaDTO> materias,
-			PlanificacionCuatrimestreDTO cuatrimestreDTO)
-			throws NivelCompletoException {
+	private PlanificacionCuatrimestreDTO processParidadImpar(List<PosiblesCursantesMateriaDTO> materias,
+			PlanificacionCuatrimestreDTO cuatrimestreDTO) throws NivelCompletoException {
 
 		List<PosiblesCursantesMateriaDTO> primerCuatrimestre = this
 				.filtrarCuatrimestre(1, 1, materias);
@@ -150,27 +202,32 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 		List<NivelPlanificacionDTO> nivelesSeptimoCuatriDTO = procesarNiveles(septimoCuatrimestre);
 		List<NivelPlanificacionDTO> nivelesNovenoCuatriDTO = procesarNiveles(novenoCuatrimestre);
 
-		cuatrimestreDTO.getNivelesPrimerCuatri()
-				.addAll(nivelesPrimeroCuatriDTO);
-		cuatrimestreDTO.getNivelesTercerCuatri()
-				.addAll(nivelesTerceroCuatriDTO);
+		cuatrimestreDTO.getNivelesPrimerCuatri().addAll(nivelesPrimeroCuatriDTO);
+		cuatrimestreDTO.getNivelesTercerCuatri().addAll(nivelesTerceroCuatriDTO);
 		cuatrimestreDTO.getNivelesQuintoCuatri().addAll(nivelesQuintoCuatriDTO);
-		cuatrimestreDTO.getNivelesSeptimoCuatri().addAll(
-				nivelesSeptimoCuatriDTO);
+		cuatrimestreDTO.getNivelesSeptimoCuatri().addAll(nivelesSeptimoCuatriDTO);
 		cuatrimestreDTO.getNivelesNovenoCuatri().addAll(nivelesNovenoCuatriDTO);
 
 		ScoreStrategy strategy = new AlumnoCursadasStrategy();
 		List<CursadaAlumnoDTO> cursadasAlumnos = strategy.processScore(cuatrimestreDTO, Paridad.IMPAR);
 		
-		cuatrimestreDTO.getScores().add(this.calcularScoreDeCeroMaterias(cursadasAlumnos, this.alumnoDAO.findAll()));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(1, cursadasAlumnos));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(2, cursadasAlumnos));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(3, cursadasAlumnos));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(4, cursadasAlumnos));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(5, cursadasAlumnos));
-		cuatrimestreDTO.getScores().add(strategy.calcularScore(6, cursadasAlumnos));
+		this.calcularScoreTipoCuatrimestre(cuatrimestreDTO, strategy, cursadasAlumnos);
+		
+		cuatrimestreDTO.setScore(this.calcularScoreUnificado(cuatrimestreDTO.getScores()));
+		
+		this.calcularScoreCuatrimestresImpares(cuatrimestreDTO, strategy);
 		
 		return cuatrimestreDTO;
+	}
+
+	private void calcularScoreCuatrimestresImpares(PlanificacionCuatrimestreDTO cuatrimestreDTO, ScoreStrategy strategy) {
+		
+		List<Alumno> all = this.alumnoDAO.findAll();
+		cuatrimestreDTO.setScorePrimerCuatri(this.calcularScorePorCuatrimestre(cuatrimestreDTO, strategy, cuatrimestreDTO.getNivelesPrimerCuatri(), all));
+		cuatrimestreDTO.setScoreTercerCuatri(this.calcularScorePorCuatrimestre(cuatrimestreDTO, strategy, cuatrimestreDTO.getNivelesTercerCuatri(), all));
+		cuatrimestreDTO.setScoreQuintoCuatri(this.calcularScorePorCuatrimestre(cuatrimestreDTO, strategy, cuatrimestreDTO.getNivelesQuintoCuatri(), all));
+		cuatrimestreDTO.setScoreSeptimoCuatri(this.calcularScorePorCuatrimestre(cuatrimestreDTO, strategy, cuatrimestreDTO.getNivelesSeptimoCuatri(), all));
+		cuatrimestreDTO.setScoreNovenoCuatri(this.calcularScorePorCuatrimestre(cuatrimestreDTO, strategy, cuatrimestreDTO.getNivelesNovenoCuatri(), all));
 	}
 
 	private List<PosiblesCursantesMateriaDTO> filtrarCuatrimestre(Integer anio,

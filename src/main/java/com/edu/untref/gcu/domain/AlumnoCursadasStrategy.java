@@ -35,7 +35,8 @@ public class AlumnoCursadasStrategy implements ScoreStrategy {
 		return cursadas;
 	}
 
-	private void procesarNiveles(List<NivelPlanificacionDTO> niveles, List<CursadaAlumnoDTO> cursadas) {
+	@Override
+	public void procesarNiveles(List<NivelPlanificacionDTO> niveles, List<CursadaAlumnoDTO> cursadas) {
 		for (NivelPlanificacionDTO unNivel : niveles) {
 			this.procesarDia(unNivel.getLunes(), Calendar.MONDAY, cursadas);
 			this.procesarDia(unNivel.getMartes(), Calendar.TUESDAY, cursadas);
