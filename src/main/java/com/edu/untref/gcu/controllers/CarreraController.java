@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.edu.untref.gcu.domain.PlanEstudio;
@@ -19,7 +20,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 @Controller
 @RequestMapping(value="/carreras") 
 @Api(value="carrerasController", description="EndPoint que permite realizar acciones sobre las carreras.")
-public class CarreraController {
+public class CarreraController extends MaestroController {
 
 	@Resource(name = "carreraService")
 	private CarreraService carreraService;
@@ -27,8 +28,11 @@ public class CarreraController {
 	@ResponseBody
 	@RequestMapping(value = "/{id}/planes", method = RequestMethod.GET)
 	@ApiOperation(value = "Devuelve todos los planes de estudio de una carrera determinada.")
-	public List<PlanEstudio> getAllPlanes(
+	public List<PlanEstudio> getAllPlanes(@RequestParam("access_token") String token, 
 			@ApiParam (name = "id", required = true) @PathVariable String id) {
+		
+		this.validateAccessToken(token);
+		
 		return carreraService.getAllPlanesByCarrera(Integer.valueOf(id));
 	}
 }
