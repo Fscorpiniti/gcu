@@ -30,4 +30,16 @@ public class PlanMateriaDAOImpl extends GenericDAOImpl<PlanMateria, Serializable
 		return query.getResultList();
 	}
 
+	@Override
+	public PlanMateria findPlanMateriaByIdMateria(Integer idMateria) {
+		StringBuilder hql = new StringBuilder("from ");
+		hql.append(getEntityClass().getName());
+		hql.append(" this where this.materia.id = :idMateria");
+		
+		Query query = this.getEntityManager().createQuery(hql.toString());
+		query.setParameter("idMateria", idMateria);
+			
+		return (PlanMateria) query.getSingleResult();
+	}
+
 }

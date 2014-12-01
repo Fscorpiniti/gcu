@@ -6,4 +6,6 @@ import com.edu.untref.gcu.domain.Materia;
 
 public interface MateriaDAO extends GenericDAO<Materia, Serializable> {
 
+	Integer findIdMateriaByNombre(String nombreMateria);
+
 }

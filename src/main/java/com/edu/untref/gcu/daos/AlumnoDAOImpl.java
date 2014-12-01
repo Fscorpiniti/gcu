@@ -3,6 +3,7 @@ package com.edu.untref.gcu.daos;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -35,6 +36,26 @@ public class AlumnoDAOImpl extends GenericDAOImpl<Alumno, Serializable>
 		}
 
 		return query.getResultList();
+	}
+
+	@Override
+	public Alumno findByLejago(Integer legajo) {
+		StringBuilder hql = new StringBuilder("from ");
+		hql.append(getEntityClass().getName());
+		hql.append(" this where this.legajo = :legajo");
+		
+		Query query = this.getEntityManager().createQuery(hql.toString());
+		query.setParameter("legajo", legajo);
+		
+		Alumno alumno;
+		
+		try{
+			alumno = (Alumno) query.getSingleResult();
+		}catch (NoResultException nre){
+			alumno = null;
+		}
+		
+		return alumno;
 	}
 
 }

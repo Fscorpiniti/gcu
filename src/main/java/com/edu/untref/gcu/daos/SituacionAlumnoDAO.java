@@ -13,4 +13,6 @@ public interface SituacionAlumnoDAO extends GenericDAO<SituacionAlumno, Serializ
 
 	List<Alumno> findAlumnosCorrelacionHabilitada(PlanMateria correlativa);
 
+	SituacionAlumno findSituacionByIdPlanMateriaAndIdAlumno(Integer idPlanMateria, Alumno alumno);
+
 }

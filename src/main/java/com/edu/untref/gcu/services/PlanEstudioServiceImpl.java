@@ -140,4 +140,9 @@ public class PlanEstudioServiceImpl implements PlanEstudioService {
 		return result;
 	}
 
+	@Override
+	public PlanEstudio getPlanEstudioById(String id) {
+		return planEstudioDAO.findByIdEntero(id);
+	}
+
 }
