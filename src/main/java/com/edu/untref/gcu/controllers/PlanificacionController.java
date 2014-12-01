@@ -26,7 +26,7 @@ public class PlanificacionController extends MaestroController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/{paridad}", method = RequestMethod.GET)
-	@ApiOperation(value = "Devuelve la planificación del cuatrimestre par o impar de acuerdo a la variable del path.")
+	@ApiOperation(value = "Devuelve la planificacion del cuatrimestre par o impar de acuerdo a la variable del path.")
 	public PlanificacionCuatrimestreDTO getAllMaterias(@RequestParam("access_token") String token, 
 			@ApiParam(name = "paridad", required = true) @PathVariable String paridad) throws NivelCompletoException {
 
