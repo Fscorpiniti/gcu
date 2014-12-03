@@ -17,13 +17,13 @@ public class MateriaDAOImpl extends GenericDAOImpl<Materia, Serializable> implem
 	}
 
 	@Override
-	public Integer findIdMateriaByNombre(String nombreMateria) {
+	public Integer findIdMateriaByCodigo(Integer codigoMateria) {
 		StringBuilder hql = new StringBuilder("select this.id from ");
 		hql.append(getEntityClass().getName());
-		hql.append(" this where this.nombre = :nombre");
+		hql.append(" this where this.codigo = :codigo");
 		
 		Query query = this.getEntityManager().createQuery(hql.toString());
-		query.setParameter("nombre", nombreMateria);
+		query.setParameter("codigo", codigoMateria);
 			
 		return (Integer) query.getSingleResult();
 	}

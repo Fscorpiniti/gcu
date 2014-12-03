@@ -29,7 +29,7 @@ public class SituacionAlumnoServiceImpl implements SituacionAlumnoService{
 	@Override
 	public void actualizarSituacionMaterias(Row row, Alumno alumno, Row rowNombreMaterias) {
 		for(int i = 5; i<row.getLastCellNum(); i++){
-			Integer idMateria = materiaService.findIdMateriaByNombre(rowNombreMaterias.getCell(i).getStringCellValue());
+			Integer idMateria = materiaService.findIdMateriaByCodigo(((Double) rowNombreMaterias.getCell(i).getNumericCellValue()).intValue());
 			PlanMateria planMateria = planMateriaService.findPlanMateriaByIdMateria(idMateria);
 			SituacionAlumno situacionAlumno = situacionAlumnoDAO.findSituacionByIdPlanMateriaAndIdAlumno(planMateria.getId(), alumno);
 			
@@ -82,7 +82,7 @@ public class SituacionAlumnoServiceImpl implements SituacionAlumnoService{
 	@Override
 	public void crearSituacionMaterias(Row row, Alumno alumno, Row rowNombreMaterias) {
 		for(int i = 5; i<row.getLastCellNum(); i++){
-			Integer idMateria = materiaService.findIdMateriaByNombre(rowNombreMaterias.getCell(i).getStringCellValue());
+			Integer idMateria = materiaService.findIdMateriaByCodigo(((Double) rowNombreMaterias.getCell(i).getNumericCellValue()).intValue());
 			PlanMateria planMateria = planMateriaService.findPlanMateriaByIdMateria(idMateria);
 			this.crearSituacionAlumno(rowNombreMaterias, alumno, planMateria, idMateria);
 		}		

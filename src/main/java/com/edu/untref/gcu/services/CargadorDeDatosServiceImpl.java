@@ -39,7 +39,7 @@ public class CargadorDeDatosServiceImpl implements CargadorDeDatosService{
             
             Iterator<Row> rowIterator = sheet.iterator();
             
-            Row rowNombreMaterias = rowIterator.next();
+            Row rowCodigos = rowIterator.next();
             
             while (rowIterator.hasNext()) {
 
@@ -47,7 +47,7 @@ public class CargadorDeDatosServiceImpl implements CargadorDeDatosService{
             	Integer anioPlanEstudio = ((Double)row.getCell(3).getNumericCellValue()).intValue();
 
             	if(anioPlanEstudio.equals(Integer.valueOf(2007))){
-            		this.agregarAlumnoAlScriptAlumno(row, rowNombreMaterias);
+            		this.agregarAlumnoAlScriptAlumno(row, rowCodigos);
             	}
             }
             
@@ -56,7 +56,7 @@ public class CargadorDeDatosServiceImpl implements CargadorDeDatosService{
         }
 	}
 
-	private void agregarAlumnoAlScriptAlumno(Row row, Row rowNombreMaterias) throws IOException {
+	private void agregarAlumnoAlScriptAlumno(Row row, Row rowCodigos) throws IOException {
 		
         Integer legajo = ((Double)row.getCell(0).getNumericCellValue()).intValue();
         String apellido = row.getCell(1).getStringCellValue();
@@ -66,7 +66,7 @@ public class CargadorDeDatosServiceImpl implements CargadorDeDatosService{
         Alumno alumnoBase = alumnoService.findByLejago(legajo);
         
         if(alumnoBase != null){
-        	this.situacionAlumnoService.actualizarSituacionMaterias(row, alumnoBase, rowNombreMaterias);
+        	this.situacionAlumnoService.actualizarSituacionMaterias(row, alumnoBase, rowCodigos);
         }else{
         	Alumno alumno = new Alumno();
         	alumno.setLegajo(legajo);
@@ -77,7 +77,7 @@ public class CargadorDeDatosServiceImpl implements CargadorDeDatosService{
         	
         	alumnoService.save(alumno);
         	
-        	this.situacionAlumnoService.crearSituacionMaterias(row, alumno, rowNombreMaterias);
+        	this.situacionAlumnoService.crearSituacionMaterias(row, alumno, rowCodigos);
         }
 	}
 

@@ -3,6 +3,6 @@ package com.edu.untref.gcu.services;
 
 public interface MateriaService {
 	
-	public Integer findIdMateriaByNombre(String nombreMateria);
+	public Integer findIdMateriaByCodigo(Integer codigoMateria);
 
 }

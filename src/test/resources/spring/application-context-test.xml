@@ -49,6 +49,8 @@
                 <entry key="hibernate.format_sql" value="false"/>
                 <entry key="hibernate.show_sql" value="true"/>
                 <entry key="hibernate.hbm2ddl.auto" value="${jdbc.hibernate.hbm2ddl.auto}"/>
+                <entry key="hibernate.connection.characterEncoding" value="utf8"/>
+				<entry key="hibernate.connection.CharSet" value="utf8"/>
                 <entry key="hibernate.default_schema" value="${jdbc.hibernate.default_schema}"/>
             </map>
         </property>

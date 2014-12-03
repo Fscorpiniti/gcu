@@ -13,8 +13,8 @@ public class MateriaServiceImpl implements MateriaService{
 	private MateriaDAO materiaDAO;
 
 	@Override
-	public Integer findIdMateriaByNombre(String nombreMateria) {
-		return materiaDAO.findIdMateriaByNombre(nombreMateria);
+	public Integer findIdMateriaByCodigo(Integer codigoMateria) {
+		return materiaDAO.findIdMateriaByCodigo(codigoMateria);
 	}
 	
 	
