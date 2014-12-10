@@ -1,7 +1,10 @@
 package com.edu.untref.gcu.daos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -16,6 +19,7 @@ public class MateriaDAOImpl extends GenericDAOImpl<Materia, Serializable> implem
 		return Materia.class;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Integer findIdMateriaByCodigo(Integer codigoMateria) {
 		StringBuilder hql = new StringBuilder("select this.id from ");
@@ -24,8 +28,15 @@ public class MateriaDAOImpl extends GenericDAOImpl<Materia, Serializable> implem
 		
 		Query query = this.getEntityManager().createQuery(hql.toString());
 		query.setParameter("codigo", codigoMateria);
-			
-		return (Integer) query.getSingleResult();
+		
+		List<Integer> codigos = new ArrayList<Integer>();
+		try{
+			codigos = (List<Integer>) query.getResultList();
+		}catch (NoResultException nre){
+			codigos = null;
+		}
+		
+		return codigos.iterator().next();
 	}
 
 }

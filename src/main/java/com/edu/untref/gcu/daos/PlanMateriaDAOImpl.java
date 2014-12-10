@@ -3,6 +3,7 @@ package com.edu.untref.gcu.daos;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -38,8 +39,15 @@ public class PlanMateriaDAOImpl extends GenericDAOImpl<PlanMateria, Serializable
 		
 		Query query = this.getEntityManager().createQuery(hql.toString());
 		query.setParameter("idMateria", idMateria);
-			
-		return (PlanMateria) query.getSingleResult();
+		
+		PlanMateria planMateria;
+		try{
+			planMateria = (PlanMateria) query.getSingleResult();
+		}catch (NoResultException nre){
+			planMateria = null;
+		}
+		
+		return planMateria;
 	}
 
 }
