@@ -9,4 +9,6 @@ public interface PlanEstudioDAO extends GenericDAO<PlanEstudio, Serializable>{
 
 	List<PlanEstudio> getAllPlanesByIdCarrera(Integer idCarrera);
 
+	PlanEstudio findByIdEntero(String id);
+
 }

@@ -30,4 +30,16 @@ public class PlanEstudioDAOImpl extends GenericDAOImpl<PlanEstudio, Serializable
 		return query.getResultList();
 	}
 
+	@Override
+	public PlanEstudio findByIdEntero(String id) {
+		StringBuilder hql = new StringBuilder("from ");
+		hql.append(getEntityClass().getName());
+		hql.append(" this where this.id = :id");
+		
+		Query query = this.getEntityManager().createQuery(hql.toString());
+		query.setParameter("id", Integer.valueOf(id));
+		
+		return (PlanEstudio) query.getSingleResult();
+	}
+
 }

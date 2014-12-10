@@ -20,4 +20,9 @@ public class PlanMateriaServiceImpl implements PlanMateriaService {
 		return this.planMateriaDAO.getAllPlanMateriasByIdPlanEstudio(id);
 	}
 
+	@Override
+	public PlanMateria findPlanMateriaByIdMateria(Integer idMateria) {
+		return planMateriaDAO.findPlanMateriaByIdMateria(idMateria);
+	}
+
 }

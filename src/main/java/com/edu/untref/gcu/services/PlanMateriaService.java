@@ -8,4 +8,6 @@ public interface PlanMateriaService {
 
 	List<PlanMateria> getAllPlanMateriasByIdPlanEstudio(String id);
 
+	PlanMateria findPlanMateriaByIdMateria(Integer idMateria);
+
 }
