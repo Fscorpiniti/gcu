@@ -24,8 +24,8 @@ public class FileUploadController {
 	private CargadorDeDatosService cargadorDeDatosService;
 	
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody
-    void uploadFileHandler(@RequestParam("file") MultipartFile file) throws IOException {
+    @ResponseBody
+    public void uploadFileHandler(@RequestParam("file") MultipartFile file) throws IOException {
  
         if (!file.isEmpty()) {
                 File datos = multipartToFile(file);

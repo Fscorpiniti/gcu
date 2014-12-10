@@ -20,8 +20,7 @@
 	<mvc:default-servlet-handler />
 	<mvc:annotation-driven />
 
-	<context:property-placeholder
-		properties-ref="props" />
+	<context:property-placeholder properties-ref="props" />
 
 	<bean id="props"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
@@ -35,8 +34,7 @@
 
 	<bean class="com.edu.untref.gcu.config.SwaggerConfig" />
 
-	<bean id="dataConfigPropertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean id="dataConfigPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="searchSystemEnvironment" value="true" />
 	</bean>
 
@@ -44,11 +42,9 @@
 		<constructor-arg value="${DATABASE_URL}" />
 	</bean>
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${database.class}" />
-		<property name="url"
-			value="#{'jdbc:postgresql://' + @dbUrl.getHost() + @dbUrl.getPath()}" />
+		<property name="url" value="#{'jdbc:postgresql://' + @dbUrl.getHost() + @dbUrl.getPath()}" />
 		<property name="username" value="#{@dbUrl.getUserInfo().split(':')[0]}" />
 		<property name="password" value="#{@dbUrl.getUserInfo().split(':')[1]}" />
 		<property name="maxWait" value="5000" />
@@ -56,25 +52,7 @@
 	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
-
-	<bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
-    
-<!--     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" -->
-<!--           destroy-method="close"> -->
-<!--         	<property name="driverClassName" value="${database.class}" /> -->
-<!-- 			<property name="url" value="${database.url}" /> -->
-<!-- 			<property name="username" value="${database.username}" /> -->
-<!-- 			<property name="password" value="${database.password}" /> -->
-<!--         <property name="driverClassName" value="${database.class}"/> -->
-<!--         <property name="url" value="#{'jdbc:postgresql://' + @dbUrl.getHost() + @dbUrl.getPath()}"/> -->
-<!--         <property name="username" value="#{@dbUrl.getUserInfo().split(':')[0]}"/> -->
-<!--         <property name="password" value="#{@dbUrl.getUserInfo().split(':')[1]}"/> -->
-<!--         <property name="maxWait" value="5000"/> -->
-<!--         <property name="maxActive" value="15"/> -->
-<!--     </bean> -->
-	
-	<tx:annotation-driven transaction-manager="transactionManager"/>
-    
+	    
 	<bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
         <property name="dataSource" ref="dataSource"/>
         <property name="persistenceUnitName" value="gcuPersistenceUnit"/>
@@ -117,12 +95,8 @@
 	  </security:authentication-provider>
 	</security:authentication-manager>
 
-	<bean id="multipartResolver"
-        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
- 
-         <!-- setting maximum upload size -->
-        <property name="maxUploadSize" value="100000" />
- 
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+         <property name="maxUploadSize" value="100000" />
     </bean>
  
 </beans>
