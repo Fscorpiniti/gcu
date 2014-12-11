@@ -3,7 +3,9 @@ package com.edu.untref.gcu.services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -171,7 +173,7 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 	
 	private List<Alumno> differenceList(List<Alumno> lista1, List<Alumno> lista2) {
 
-		List<Alumno> result = new ArrayList<Alumno>();
+		Set<Alumno> result = new HashSet<Alumno>();
 		
 		for (Alumno unAlumno: lista1) {
 			if (!lista2.contains(unAlumno)) {
@@ -179,7 +181,13 @@ public class PlanificacionServiceImpl implements PlanificacionService {
 			}
 		}
 		
-		return result;
+		for (Alumno unAlumno: lista2) {
+			if (!lista1.contains(unAlumno)) {
+				result.add(unAlumno);
+			}
+		}
+		
+		return new ArrayList<Alumno>(result);
 	}
 
 	private PlanificacionCuatrimestreDTO processParidadImpar(List<PosiblesCursantesMateriaDTO> materias,
