@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.edu.untref.gcu.daos.MateriaDAO;
+import com.edu.untref.gcu.domain.Materia;
 
 @Service("materiaService")
 public class MateriaServiceImpl implements MateriaService{
@@ -17,6 +18,10 @@ public class MateriaServiceImpl implements MateriaService{
 		return materiaDAO.findIdMateriaByCodigo(codigoMateria);
 	}
 	
+	@Override
+	public Materia findMateriaByCodigo(Integer codigoMateria) {
+		return materiaDAO.findMateriaByCodigo(codigoMateria);
+	}
 	
 
 }

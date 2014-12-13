@@ -1,4 +1,6 @@
-package com.edu.untref.gcu.domain;
+package com.edu.untref.gcu.dtos;
+
+import com.edu.untref.gcu.domain.PlanMateria;
 
 
 public class MateriaDiaDTO {

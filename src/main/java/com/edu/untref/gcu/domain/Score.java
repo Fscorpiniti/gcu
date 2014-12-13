@@ -1,16 +1,22 @@
-package com.edu.untref.gcu.dtos;
+package com.edu.untref.gcu.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.edu.untref.gcu.domain.Alumno;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 
-public class ScoreDTO {
+@Entity
+public class Score extends PersistibleObject {
 	
-	@JsonProperty("cantidad_materias")
-	private int cantidadMaterias;
+	private static final long serialVersionUID = -1358762961898069864L;
 
+	@Column
+	private int cantidadMaterias;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Alumno> alumnos = new ArrayList<Alumno>();
 
 	public List<Alumno> getAlumnos() {

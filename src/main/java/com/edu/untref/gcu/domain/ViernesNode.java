@@ -1,33 +1,41 @@
 package com.edu.untref.gcu.domain;
 
-import com.edu.untref.gcu.dtos.NivelPlanificacionDTO;
+import java.util.Calendar;
+
 import com.edu.untref.gcu.dtos.PosiblesCursantesMateriaDTO;
 import com.edu.untref.gcu.exceptions.NivelCompletoException;
 
-public class ViernesNode implements ProcesadorNiveles {
+public class ViernesNode implements ProcesadorSemanas {
 
-	private ProcesadorNiveles nextHandler;
+	private ProcesadorSemanas nextHandler;
 	
 	@Override
-	public void colocarEnDiaLibre(NivelPlanificacionDTO nivelPlanificacionDTO, PosiblesCursantesMateriaDTO materia) throws NivelCompletoException {
-		if (nivelPlanificacionDTO.getViernes() == null) {
+	public void colocarEnDiaLibre(SemanaPlanificacion semana, PosiblesCursantesMateriaDTO materia) throws NivelCompletoException {
+		DiaPlanificacion viernes = ValidadorDisponibilidad.validarDisponibilidad(semana, Calendar.FRIDAY);
+		DiaPlanificacion jueves = ValidadorDisponibilidad.validarDisponibilidad(semana, Calendar.THURSDAY);
+		
+		if (viernes == null) {
 			if ((materia.getMateria().getHoras() > 60)
-					&& (nivelPlanificacionDTO.getJueves() != null)
-					&& (nivelPlanificacionDTO.getJueves().getMateria().getId()
+					&& (jueves != null)
+					&& (jueves.getMateria().getId()
 							.equals(materia.getMateria().getId()))) {
 
-				this.nextHandler.colocarEnDiaLibre(nivelPlanificacionDTO,
+				this.nextHandler.colocarEnDiaLibre(semana,
 						materia);
 			} else {
-				nivelPlanificacionDTO.setViernes(materia);
+				DiaPlanificacion viernesPlanificacion = new DiaPlanificacion();
+				viernesPlanificacion.setDia(Calendar.FRIDAY);
+				viernesPlanificacion.setMateria(materia.getMateria());
+				viernesPlanificacion.setCursantes(materia.getAlumnosPosiblesCursantes());
+				semana.getDias().add(viernesPlanificacion);
 			}
 		} else {
-			this.nextHandler.colocarEnDiaLibre(nivelPlanificacionDTO, materia);
+			this.nextHandler.colocarEnDiaLibre(semana, materia);
 		}
 	}
 
 	@Override
-	public void nextHandler(ProcesadorNiveles procesadorNiveles) {
+	public void nextHandler(ProcesadorSemanas procesadorNiveles) {
 		this.nextHandler = procesadorNiveles;
 	}
 

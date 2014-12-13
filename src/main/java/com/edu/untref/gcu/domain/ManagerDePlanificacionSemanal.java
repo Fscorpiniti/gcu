@@ -1,12 +1,11 @@
 package com.edu.untref.gcu.domain;
 
-import com.edu.untref.gcu.dtos.NivelPlanificacionDTO;
 import com.edu.untref.gcu.dtos.PosiblesCursantesMateriaDTO;
 import com.edu.untref.gcu.exceptions.NivelCompletoException;
 
-public class ManagerDeNiveles {
+public class ManagerDePlanificacionSemanal {
 
-	private static ProcesadorNiveles startNode;
+	private static ProcesadorSemanas startNode;
 	
 	public static void inicializar() {
 		startNode = new LunesNode();
@@ -27,8 +26,8 @@ public class ManagerDeNiveles {
 		viernesNode.nextHandler(sabadoNode);
 	}
 	
-	public static void colocarEnDiaLibre(NivelPlanificacionDTO nivelPlanificacionDTO, PosiblesCursantesMateriaDTO materia) throws NivelCompletoException {
-		startNode.colocarEnDiaLibre(nivelPlanificacionDTO, materia);
+	public static void colocarEnDiaLibre(SemanaPlanificacion semana, PosiblesCursantesMateriaDTO materia) throws NivelCompletoException {
+		startNode.colocarEnDiaLibre(semana, materia);
 	}
 	
 }

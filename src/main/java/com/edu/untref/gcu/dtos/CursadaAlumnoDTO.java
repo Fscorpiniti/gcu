@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.edu.untref.gcu.domain.Alumno;
-import com.edu.untref.gcu.domain.MateriaDiaDTO;
 import com.edu.untref.gcu.domain.PlanMateria;
 
 public class CursadaAlumnoDTO {

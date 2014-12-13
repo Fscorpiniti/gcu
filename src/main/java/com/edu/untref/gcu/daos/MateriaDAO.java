@@ -8,4 +8,6 @@ public interface MateriaDAO extends GenericDAO<Materia, Serializable> {
 
 	Integer findIdMateriaByCodigo(Integer codigoMateria);
 
+	Materia findMateriaByCodigo(Integer codigoMateria);
+
 }

@@ -1,65 +1,67 @@
 package com.edu.untref.gcu.dtos;
 
+import com.edu.untref.gcu.domain.DiaPlanificacion;
+
 public class NivelPlanificacionDTO {
 
-	private PosiblesCursantesMateriaDTO lunes;
+	private DiaPlanificacion lunes;
 	
-	private PosiblesCursantesMateriaDTO martes;
+	private DiaPlanificacion martes;
 	
-	private PosiblesCursantesMateriaDTO miercoles;
+	private DiaPlanificacion miercoles;
 	
-	private PosiblesCursantesMateriaDTO jueves;
+	private DiaPlanificacion jueves;
 	
-	private PosiblesCursantesMateriaDTO viernes;
+	private DiaPlanificacion viernes;
 	
-	private PosiblesCursantesMateriaDTO sabado;
+	private DiaPlanificacion sabado;
 
-	public PosiblesCursantesMateriaDTO getLunes() {
+	public DiaPlanificacion getLunes() {
 		return lunes;
 	}
 
-	public void setLunes(PosiblesCursantesMateriaDTO lunes) {
+	public void setLunes(DiaPlanificacion lunes) {
 		this.lunes = lunes;
 	}
 
-	public PosiblesCursantesMateriaDTO getMartes() {
+	public DiaPlanificacion getMartes() {
 		return martes;
 	}
 
-	public void setMartes(PosiblesCursantesMateriaDTO martes) {
+	public void setMartes(DiaPlanificacion martes) {
 		this.martes = martes;
 	}
 
-	public PosiblesCursantesMateriaDTO getMiercoles() {
+	public DiaPlanificacion getMiercoles() {
 		return miercoles;
 	}
 
-	public void setMiercoles(PosiblesCursantesMateriaDTO miercoles) {
+	public void setMiercoles(DiaPlanificacion miercoles) {
 		this.miercoles = miercoles;
 	}
 
-	public PosiblesCursantesMateriaDTO getJueves() {
+	public DiaPlanificacion getJueves() {
 		return jueves;
 	}
 
-	public void setJueves(PosiblesCursantesMateriaDTO jueves) {
+	public void setJueves(DiaPlanificacion jueves) {
 		this.jueves = jueves;
 	}
 
-	public PosiblesCursantesMateriaDTO getViernes() {
+	public DiaPlanificacion getViernes() {
 		return viernes;
 	}
 
-	public void setViernes(PosiblesCursantesMateriaDTO viernes) {
+	public void setViernes(DiaPlanificacion viernes) {
 		this.viernes = viernes;
 	}
 
-	public PosiblesCursantesMateriaDTO getSabado() {
+	public DiaPlanificacion getSabado() {
 		return sabado;
 	}
 
-	public void setSabado(PosiblesCursantesMateriaDTO sabado) {
+	public void setSabado(DiaPlanificacion sabado) {
 		this.sabado = sabado;
 	}
-	
+
 }

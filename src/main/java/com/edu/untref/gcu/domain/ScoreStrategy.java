@@ -3,9 +3,6 @@ package com.edu.untref.gcu.domain;
 import java.util.List;
 
 import com.edu.untref.gcu.dtos.CursadaAlumnoDTO;
-import com.edu.untref.gcu.dtos.NivelPlanificacionDTO;
-import com.edu.untref.gcu.dtos.PlanificacionCuatrimestreDTO;
-import com.edu.untref.gcu.dtos.ScoreDTO;
 
 public interface ScoreStrategy {
 
@@ -17,7 +14,7 @@ public interface ScoreStrategy {
 	 * @return List<CursadaAlumnoDTO>
 	 * 
 	 */
-	List<CursadaAlumnoDTO> processScore(PlanificacionCuatrimestreDTO cuatrimestreDTO, Paridad par);
+	List<CursadaAlumnoDTO> processScore(Planificacion planificacion, Paridad par);
 
 	/**
 	 * Procesa solo los niveles pasados por parametros, y carga en la lista de cursadas las que corresponden a ese cuatrimestre
@@ -26,7 +23,7 @@ public interface ScoreStrategy {
 	 * @param cursadas
 	 * 
 	 */
-	void procesarNiveles(List<NivelPlanificacionDTO> niveles, List<CursadaAlumnoDTO> cursadas);
+	void procesarCuatrimestre(List<SemanaPlanificacion> nivelesSemana, List<CursadaAlumnoDTO> cursadas);
 	
 	/**
 	 * Calcula el Score de una determinada cantidad de materias
@@ -36,6 +33,6 @@ public interface ScoreStrategy {
 	 * 
 	 * @return ScoreDTO
 	 */
-	ScoreDTO calcularScore(int cantidadMaterias, List<CursadaAlumnoDTO> cursadasAlumnos);
+	Score calcularScore(int cantidadMaterias, List<CursadaAlumnoDTO> cursadasAlumnos);
 	
 }

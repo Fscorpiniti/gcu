@@ -5,58 +5,42 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.edu.untref.gcu.dtos.CursadaAlumnoDTO;
-import com.edu.untref.gcu.dtos.NivelPlanificacionDTO;
-import com.edu.untref.gcu.dtos.PlanificacionCuatrimestreDTO;
-import com.edu.untref.gcu.dtos.PosiblesCursantesMateriaDTO;
-import com.edu.untref.gcu.dtos.ScoreDTO;
+import com.edu.untref.gcu.dtos.MateriaDiaDTO;
 
 public class AlumnoCursadasStrategy implements ScoreStrategy {
 
 	@Override
-	public List<CursadaAlumnoDTO> processScore(
-			PlanificacionCuatrimestreDTO cuatrimestreDTO, Paridad paridadSeleccionada) {
-
+	public List<CursadaAlumnoDTO> processScore(Planificacion planificacion, Paridad paridadSeleccionada) {
 		List<CursadaAlumnoDTO> cursadas = new ArrayList<CursadaAlumnoDTO>();
 
-		if (paridadSeleccionada.equals(Paridad.PAR)) {
-			this.procesarNiveles(cuatrimestreDTO.getNivelesSegundoCuatri(), cursadas);
-			this.procesarNiveles(cuatrimestreDTO.getNivelesCuartoCuatri(), cursadas);
-			this.procesarNiveles(cuatrimestreDTO.getNivelesSextoCuatri(), cursadas);
-			this.procesarNiveles(cuatrimestreDTO.getNivelesOctavoCuatri(), cursadas);
-			this.procesarNiveles(cuatrimestreDTO.getNivelesDecimoCuatri(), cursadas);
-		} else {
-			this.procesarNiveles(cuatrimestreDTO.getNivelesPrimerCuatri(), cursadas);
-			this.procesarNiveles(cuatrimestreDTO.getNivelesTercerCuatri(), cursadas);
-			this.procesarNiveles(cuatrimestreDTO.getNivelesQuintoCuatri(), cursadas);
-			this.procesarNiveles(cuatrimestreDTO.getNivelesSeptimoCuatri(), cursadas);
-			this.procesarNiveles(cuatrimestreDTO.getNivelesNovenoCuatri(), cursadas);
-		}
+		this.procesarCuatrimestre(planificacion.getCuatrimestre1(), cursadas);
+		this.procesarCuatrimestre(planificacion.getCuatrimestre2(), cursadas);
+		this.procesarCuatrimestre(planificacion.getCuatrimestre3(), cursadas);
+		this.procesarCuatrimestre(planificacion.getCuatrimestre4(), cursadas);
+		this.procesarCuatrimestre(planificacion.getCuatrimestre5(), cursadas);
 		
 		return cursadas;
 	}
 
 	@Override
-	public void procesarNiveles(List<NivelPlanificacionDTO> niveles, List<CursadaAlumnoDTO> cursadas) {
-		for (NivelPlanificacionDTO unNivel : niveles) {
-			this.procesarDia(unNivel.getLunes(), Calendar.MONDAY, cursadas);
-			this.procesarDia(unNivel.getMartes(), Calendar.TUESDAY, cursadas);
-			this.procesarDia(unNivel.getMiercoles(), Calendar.WEDNESDAY, cursadas);
-			this.procesarDia(unNivel.getJueves(), Calendar.THURSDAY, cursadas);
-			this.procesarDia(unNivel.getViernes(), Calendar.FRIDAY, cursadas);
-			this.procesarDia(unNivel.getSabado(), Calendar.SATURDAY, cursadas);
+	public void procesarCuatrimestre(List<SemanaPlanificacion> nivelesSemana, List<CursadaAlumnoDTO> cursadas) {
+		for (SemanaPlanificacion unNivel : nivelesSemana) {
+			this.procesarDia(getDia(unNivel, Calendar.MONDAY), Calendar.MONDAY, cursadas);
+			this.procesarDia(getDia(unNivel, Calendar.TUESDAY), Calendar.TUESDAY, cursadas);
+			this.procesarDia(getDia(unNivel, Calendar.WEDNESDAY), Calendar.WEDNESDAY, cursadas);
+			this.procesarDia(getDia(unNivel, Calendar.THURSDAY), Calendar.THURSDAY, cursadas);
+			this.procesarDia(getDia(unNivel, Calendar.FRIDAY), Calendar.FRIDAY, cursadas);
+			this.procesarDia(getDia(unNivel, Calendar.SATURDAY), Calendar.SATURDAY, cursadas);
 		}
 		
 	}
 
-	private void procesarDia(PosiblesCursantesMateriaDTO posiblesCursantesDia,
-			int dia, List<CursadaAlumnoDTO> cursadas) {
+	private void procesarDia(DiaPlanificacion diaPlanificacion, int dia, List<CursadaAlumnoDTO> cursadas) {
 
-		if (posiblesCursantesDia != null) {
-			for (Alumno unAlumno : posiblesCursantesDia
-					.getAlumnosPosiblesCursantes()) {
+		if (diaPlanificacion != null) {
+			for (Alumno unAlumno : diaPlanificacion.getCursantes()) {
 				
-				CursadaAlumnoDTO cursadaAlumnoDTO = this.findCursadaByAlumno(
-						unAlumno, cursadas);
+				CursadaAlumnoDTO cursadaAlumnoDTO = this.findCursadaByAlumno(unAlumno, cursadas);
 				
 				if (cursadaAlumnoDTO == null) {
 					cursadaAlumnoDTO = new CursadaAlumnoDTO();
@@ -65,18 +49,17 @@ public class AlumnoCursadasStrategy implements ScoreStrategy {
 				}
 				
 				if (cursadaAlumnoDTO.notContainsMateriaDia(dia)
-						&& cursadaAlumnoDTO.notContainsMateria(posiblesCursantesDia
-								.getMateria())) {
+						&& cursadaAlumnoDTO.notContainsMateria(diaPlanificacion.getMateria())) {
 					
 					MateriaDiaDTO materiaDiaDTO = new MateriaDiaDTO();
 					materiaDiaDTO.setDia(dia);
-					materiaDiaDTO.setMateria(posiblesCursantesDia.getMateria());
+					materiaDiaDTO.setMateria(diaPlanificacion.getMateria());
 					cursadaAlumnoDTO.getMaterias().add(materiaDiaDTO);
 					
-					if (posiblesCursantesDia.getMateria().getHoras() > 60) {
+					if (diaPlanificacion.getMateria().getHoras() > 60) {
 						MateriaDiaDTO materiaDiaSegundoDiaDTO = new MateriaDiaDTO();
 						materiaDiaSegundoDiaDTO.setDia(calcularDia(dia));
-						materiaDiaSegundoDiaDTO.setMateria(posiblesCursantesDia.getMateria());
+						materiaDiaSegundoDiaDTO.setMateria(diaPlanificacion.getMateria());
 						cursadaAlumnoDTO.getMaterias().add(materiaDiaSegundoDiaDTO);
 					}
 				}
@@ -94,9 +77,7 @@ public class AlumnoCursadasStrategy implements ScoreStrategy {
 		}
 	}
 
-	private CursadaAlumnoDTO findCursadaByAlumno(Alumno unAlumno,
-			List<CursadaAlumnoDTO> cursadas) {
-
+	private CursadaAlumnoDTO findCursadaByAlumno(Alumno unAlumno, List<CursadaAlumnoDTO> cursadas) {
 		for (CursadaAlumnoDTO unaCursada : cursadas) {
 			if (unaCursada.getAlumno().equals(unAlumno)) {
 				return unaCursada;
@@ -107,10 +88,8 @@ public class AlumnoCursadasStrategy implements ScoreStrategy {
 	}
 
 	@Override
-	public ScoreDTO calcularScore(int cantidadMaterias,
-			List<CursadaAlumnoDTO> cursadasAlumnos) {
-		
-		ScoreDTO scoreDTO = new ScoreDTO();
+	public Score calcularScore(int cantidadMaterias, List<CursadaAlumnoDTO> cursadasAlumnos) {
+		Score scoreDTO = new Score();
 		scoreDTO.setCantidadMaterias(cantidadMaterias);
 		
 		for (CursadaAlumnoDTO unaCursada: cursadasAlumnos) {
@@ -137,4 +116,13 @@ public class AlumnoCursadasStrategy implements ScoreStrategy {
 		return cantidad;
 	}
 
+	
+	public DiaPlanificacion getDia(SemanaPlanificacion semana, Integer dia) {
+		for (DiaPlanificacion unDia: semana.getDias()) {
+			if (unDia.getDia().equals(dia)) {
+				return unDia;
+			}
+		}
+		return null;
+	}
 }

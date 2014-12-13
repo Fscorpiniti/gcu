@@ -38,5 +38,17 @@ public class MateriaDAOImpl extends GenericDAOImpl<Materia, Serializable> implem
 		
 		return codigos.iterator().next();
 	}
-
+	
+	@Override
+	public Materia findMateriaByCodigo(Integer codigoMateria) {
+		StringBuilder hql = new StringBuilder("from ");
+		hql.append(getEntityClass().getName());
+		hql.append(" this where this.codigo = :codigo");
+		
+		Query query = this.getEntityManager().createQuery(hql.toString());
+		query.setParameter("codigo", codigoMateria);
+		
+		return (Materia) query.getSingleResult();
+	}
+	
 }
